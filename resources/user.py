@@ -25,15 +25,15 @@ class UserRegister(Resource):
     argumentos.add_argument("username", type=str, required=True, help="Username obrigatório")
     argumentos.add_argument("password", type=str, required=True, help="Password obrigatório")
 
-    def post(self, username):
+    def post(self):
         dados = UserRegister.argumentos.parse_args() # Dicionário
-        user = UserModel.find_user(username)
+        user = UserModel.find_user(dados["username"])
         if user:
             return {"message": "User with this username already exists"}
         try:
-            new_user = UserModel(username, **dados)
+            new_user = UserModel(**dados)
             new_user.save_user()
-            return new_user.json(), 200
+            return { "message" : "User created with success"}
         except:
             return { "message": "Internal error ..."}, 500 # Internal error
     
@@ -52,4 +52,4 @@ class UserLogin(Resource):
         return { "message": "User or password invalid!" }, 401
 
 class UserLogout(Resource):
-     ...
+    

@@ -1,5 +1,4 @@
 from turtle import home
-
 from conexao import bd
 
 class UserModel(bd.Model):
